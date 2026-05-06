@@ -14,7 +14,7 @@ def test_carrito(driver):
     nombre_producto = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
 
     # Hacer click en add to cart del primer producto.
-    boton_add = primer_producto.find_element(By.TAG_NAME, "button")
+    boton_add = primer_producto.find_element(By.ID, "add-to-cart-sauce-labs-backpack")
     boton_add.click()
 
     # Esperar a que aparezca el contador del carrito.
