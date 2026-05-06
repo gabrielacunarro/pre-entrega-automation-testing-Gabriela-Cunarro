@@ -2,7 +2,7 @@ import pytest
 from selenium import webdriver
 
 @pytest.fixture()
-def driver():
+def test_driver():
     driver = webdriver.Chrome()
     driver.get("http://www.saucedemo.com/")
     yield driver
