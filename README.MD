@@ -29,4 +29,8 @@ El objetivo principal es practicar y demostrar:
 - **Estructura modular** con `helpers.py` y `conftest.py`
 
 ---
+## 📦 Instalación de dependencias
+Instalar todas las dependencias necesarias:
 
+```bash
+pip install -r requirements.txt
