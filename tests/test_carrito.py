@@ -1,8 +1,10 @@
+import pytest
 from src.helpers import login
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+@pytest.mark.smoke
 def test_carrito(driver):
     login(driver)
 

@@ -2,6 +2,8 @@ from selenium.webdriver.common.by import By
 import time
 
 def login(driver):
+    driver.get("https://www.saucedemo.com/") 
+
     username = driver.find_element(By.ID, "user-name")
     username.send_keys("standard_user")
 

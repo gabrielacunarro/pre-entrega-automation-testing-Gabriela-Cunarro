@@ -1,6 +1,8 @@
+import pytest
 from src.helpers import login
 from selenium.webdriver.common.by import By
 
+@pytest.mark.smoke
 def test_invetory(driver):
     #Login (valida URL y titulo)
     login(driver)
