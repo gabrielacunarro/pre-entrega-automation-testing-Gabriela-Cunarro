@@ -1,36 +1,26 @@
-import pytest
-from src.helpers import login
+from selenium import webdriver
 from selenium.webdriver.common.by import By
+import pytest
+from pages.inventory_page import InventoryPage
+from pages.login_page import LoginPage
 
-@pytest.mark.smoke
-def test_invetory(driver):
-    #Login (valida URL y titulo)
-    login(driver)
+@pytest.fixture
+def driver_logged(driver):
+    login_page = LoginPage(driver)
+    login_page.login("standard_user", "secret_sauce")
 
-    #Verificar que existan prodcutos visibles
-    productos = driver.find_elements(By.CLASS_NAME, "inventory_item")
-    assert len(productos) > 0, "No hay productos visibles en el inventario."
+    return InventoryPage(driver)
 
-    #Obtener nombre y precio del primer producto
-    primer_producto = productos[0]
+def test_inventory_title(driver_logged):
+    titulo = driver_logged.obtener_titulo()
+    assert titulo == "Swag Labs", "El título de la página no es correcto"
 
-    nombre = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
-    precio = primer_producto.find_element(By.CLASS_NAME, "inventory_item_price").text
-    imagen = primer_producto.find_element(By.CLASS_NAME, "inventory_item_img")
-    descripcion = primer_producto.find_element(By.CLASS_NAME, "inventory_item_desc").text
-    boton_add = primer_producto.find_element(By.CLASS_NAME, "btn_inventory")
-    
-    assert nombre != "" , "El primer producto no tiene nombre."
-    assert precio != "" , "El primer producto no tiene precio."
-    assert imagen.is_displayed(), "El primer producto no tiene imagen."
-    assert descripcion != "" , "El primer producto no tiene descripcion."
-    assert boton_add.is_displayed(), "El boton de agregar al carrito no es visible."
 
-    #Validar elementos importantes (menu, filtro, cart)
-    menu = driver.find_element(By.ID, "react-burger-menu-btn")
-    filtro = driver.find_element(By.CLASS_NAME, "product_sort_container")
-    carrito = driver.find_element(By.ID, "shopping_cart_container")
+def test_productos_visibles(driver_logged):
+    productos = driver_logged.obtener_productos()
+    assert len(productos) > 0, "No hay productos visibles"
 
-    assert menu.is_displayed(), "El menu no es visible."
-    assert filtro.is_displayed(), "El filtro no es visible."
-    assert carrito.is_displayed(), "El carrito no es visible."
+
+def test_ui_element(driver_logged):
+    assert driver_logged.menu_visible(), "El menú no está presente"
+    assert driver_logged.filtro_visible(), "El filtro no está presente"

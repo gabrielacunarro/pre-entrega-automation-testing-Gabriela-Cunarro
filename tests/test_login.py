@@ -1,14 +1,22 @@
-import pytest
-from pages.login_page import LoginPage
-from pages.inventory_page import InventoryPage
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
-@pytest.mark.smoke
-def test_login(driver):
+from pages.login_page import LoginPage
+
+def test_login_validation(driver):
     login_page = LoginPage(driver)
 
-    login_page.abrir().login_completo("standard_user", "secret_sauce")
+    login_page.abrir()
+    login_page.login("standard_user", "secret_sauce")
 
-    assert "inventory" in driver.current_url
+    assert "/inventory.html" in driver.current_url
 
-    inventory = InventoryPage(driver)
-    assert inventory.obtener_titulo() == "Products"
+def test_login_invalid(driver):
+    login_page = LoginPage(driver)
+
+    login_page.login("standard_user", "1234")
+
+    error = login_page.obtener_mensaje_error()
+
+    assert "Epic sadface: Username and password do not match any user in this service" in error
