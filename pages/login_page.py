@@ -5,17 +5,18 @@ from selenium.webdriver.support import expected_conditions as EC
 class LoginPage:
     URL = "https://www.saucedemo.com/"
 
-#LOCATORS
+    # LOCATORS
     _USER_INPUT = (By.ID, "user-name")
     _PASS_INPUT = (By.ID, "password")
     _LOGIN_BUTTON = (By.ID, "login-button")
     _ERROR_MESSAGE = (By.CSS_SELECTOR, "[data-test='error']")
 
-#CONSTRUCTOR
+    # CONSTRUCTOR
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-#ACCIONES DE ALTO NIVEL
+
+    # ACCIONES DE ALTO NIVEL
     def abrir(self):
         self.driver.get(self.URL)
         return self
@@ -26,30 +27,31 @@ class LoginPage:
         campo.send_keys(usuario)
         return self
 
-    def completar_clave(self, clave: str):
-        campo = self.driver.find_element(*self._PASS_INPUT)
+    def completar_password(self, password: str):
+        campo = self.wait.until(EC.visibility_of_element_located(self._PASS_INPUT))
         campo.clear()
-        campo.send_keys(clave)
+        campo.send_keys(password)
         return self
 
-    def hacer_clic_login(self):
-        self.driver.find_element(*self._LOGIN_BUTTON).click()
+    def click_login(self):
+        self.wait.until(EC.element_to_be_clickable(self._LOGIN_BUTTON)).click()
         return self
 
-    def login_completo(self, usuario, clave):
+    def login(self, usuario, password):
+        self.abrir()  
         self.completar_usuario(usuario)
-        self.completar_clave(clave)
-        self.hacer_clic_login()
+        self.completar_password(password)
+        self.click_login()
         return self
 
-    def esta_error_visible(self) -> bool:
+    def esta_error_visible(self):
         try:
             self.wait.until(EC.visibility_of_element_located(self._ERROR_MESSAGE))
             return True
         except:
             return False
 
-    def obtener_mensaje_error(self) -> str:
+    def obtener_mensaje_error(self):
         if self.esta_error_visible():
             return self.driver.find_element(*self._ERROR_MESSAGE).text
         return ""
