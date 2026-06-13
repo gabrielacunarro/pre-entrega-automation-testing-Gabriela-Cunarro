@@ -14,6 +14,4 @@ def test_login_invalid_password(driver):
 
     error = login_page.obtener_mensaje_error()
 
-    assert error == "hola manola"   # falla a propósito → screenshot
-
-    #assert "Epic sadface: Username and password do not match any user in this service" in error    
+    assert "Epic sadface: Username and password do not match any user in this service" in error    

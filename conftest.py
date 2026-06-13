@@ -6,11 +6,19 @@ from selenium.webdriver.chrome.options import Options
 from pages.login_page import LoginPage
 from utils.data_reader import read_users_csv
 from pytest_html import extras
+import pathlib
+import base64
 
 
 @pytest.fixture(scope="function")
 def driver():
     chrome_options = Options()
+
+    chrome_options.add_experimental_option("prefs", {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    })
+
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -39,7 +47,6 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
 
-    # 🔥 FIX: asegurar que report.extras exista
     if not hasattr(report, "extras"):
         report.extras = []
 
@@ -47,5 +54,16 @@ def pytest_runtest_makereport(item, call):
         driver = item.funcargs.get("driver")
 
         if driver:
-            screenshot = driver.get_screenshot_as_png()
-            report.extras.append(extras.png(screenshot, "Screenshot"))
+            screenshots_dir = pathlib.Path("reports/screenshots")
+            screenshots_dir.mkdir(parents=True, exist_ok=True)
+
+            file_path = screenshots_dir / f"{item.name}.png"
+            driver.save_screenshot(str(file_path))
+
+            # Convertir a base64 (pytest-html 4.x lo requiere)
+            with open(file_path, "rb") as f:
+                encoded_image = base64.b64encode(f.read()).decode("utf-8")
+
+            report.extras.append(
+                extras.image(encoded_image, mime_type="image/png", extension="png")
+            )

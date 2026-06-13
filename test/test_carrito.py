@@ -8,30 +8,34 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_carrito(driver):
     login(driver)
 
+    # Cerrar popup si aparece
+    try:
+        driver.find_element(By.XPATH, "//button[text()='OK']").click()
+    except:
+        pass
+
     productos = driver.find_elements(By.CLASS_NAME, "inventory_item")
-    assert len(productos) > 0, "No hay productos visibles."
+    assert len(productos) > 0
     primer_producto = productos[0]
 
-    # Obtener nombre del producto.
     nombre_producto = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
 
-    # Hacer click en add to cart del primer producto.
-    boton_add = primer_producto.find_element(By.ID, "add-to-cart-sauce-labs-backpack")
-    boton_add.click()
+    # Botón robusto
+    boton_add = primer_producto.find_element(By.TAG_NAME, "button")
 
-    # Esperar a que aparezca el contador del carrito.
-    carrito = driver.find_element(By.ID, "shopping_cart_container")
+    # Click forzado
+    driver.execute_script("arguments[0].click();", boton_add)
 
+    # Esperar badge
     WebDriverWait(driver, 5).until(
         EC.visibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge"))
     )
 
+    carrito = driver.find_element(By.ID, "shopping_cart_container")
     contador = carrito.find_element(By.CLASS_NAME, "shopping_cart_badge").text
-    assert contador == "1", "El contador del carrito no se incrementó correctamente."
+    assert contador == "1"
 
-    # Navegar al carrito.
     carrito.click()
 
-    # Verificar que el producto esté en el carrito.
     item_carrito = driver.find_element(By.CLASS_NAME, "inventory_item_name").text
-    assert item_carrito == nombre_producto, "El producto del carrito no coincide con el agregado."
+    assert item_carrito == nombre_producto

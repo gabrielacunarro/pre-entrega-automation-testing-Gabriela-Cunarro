@@ -1,36 +1,25 @@
 ## 🧪 Proyecto de Automatización – Pre Entrega (Selenium + Pytest)
-    Este proyecto contiene pruebas automatizadas para el sitio SauceDemo, desarrolladas como parte de la pre-entrega del curso de Automatización QA.
-    Incluye validaciones de login, inventario y carrito de compras utilizando Selenium WebDriver y Pytest.
+    Este proyecto contiene pruebas automatizadas para el sitio **SauceDemo**, desarrolladas como parte de la pre-entrega del curso de Automatización QA.  
+    Incluye validaciones de login, inventario y carrito de compras utilizando **Selenium WebDriver**, **Pytest** y el patrón **Page Object Model (POM)**.
 
 ## 🎯 Propósito del Proyecto
-    El objetivo principal es practicar y demostrar:
-
-    Automatización de pruebas UI con Selenium.
-
-    Uso de Pytest como framework de testing.
-
-    Estructuración profesional de un proyecto de automatización.
-
-    Validación de elementos clave del flujo de compra:
-
-    Login
-
-    Visualización de productos
-
-    Agregar productos al carrito
-
-    Verificar el contenido del carrito
+    - Automatización de pruebas UI con Selenium.
+    - Uso de Pytest como framework de testing.
+    - Estructuración profesional de un framework de automatización.
+    - Validación de elementos clave del flujo de compra:
+    - Login
+    - Visualización de productos
+    - Agregar productos al carrito
+    - Verificar el contenido del carrito
 
 ## 🛠️ Tecnologías Utilizadas
-    Python 3.x
-
-    Selenium WebDriver
-
-    Pytest
-
-    WebDriver Manager (para manejar drivers automáticamente)
-
-    Estructura modular con helpers.py y conftest.py
+    - Python 3.x  
+    - Selenium WebDriver  
+    - Pytest  
+    - Requests (para pruebas de API)  
+    - WebDriver Manager  
+    - Pytest-HTML  
+    - Page Object Model (POM)
 
 ## 📦 Instalación de dependencias
     Instalar todas las dependencias necesarias:
@@ -47,46 +36,110 @@
 
 ## 📁 Estructura del Proyecto
     Proyecto/
-    │── src/
-    │   ├── helpers.py
-    │   └── conftest.py
+    │── assets/
     │
-    │── tests/
-    │   ├── test_login.py
-    │   ├── test_inventory.py
-    │   └── test_carrito.py
+    │── data/
+    │   └── users.csv
+    │
+    │── features/
+    │   ├── environment.py
+    │   ├── login.feature
+    │   └── steps/
+    │       └── login_steps.py
+    │
+    │── pages/
+    │   ├── cart_page.py
+    │   ├── inventory_page.py
+    │   └── login_page.py
     │
     │── reports/
-    │   ├── reporte.html
-    │   └── capturas/ (si aplica)
+    │   ├── assets/
+    │   ├── screenshots/
+    │   ├── carrito_report.html
+    │   ├── inventario_report.html
+    │   ├── login_report.html
+    │   ├── preentrega_pom.html
+    │   ├── report.html
+    │   └── ui_report.html
     │
-    │── datos/ (si aplica)
+    │── src/
+    │   └── conftest.py
+    │
+    │── test/
+    │   ├── test_api/
+    │   │   ├── json_placeholder/
+    │   │   └── reqres/
+    │   │       ├── test_reqres_get.py
+    │   │       ├── test_reqres_post.py
+    │   │       └── test_reqres_delete.py
+    │   ├── test_carrito.py
+    │   ├── test_cart_json.py
+    │   ├── test_inventory.py
+    │   ├── test_login.py
+    │   └── test_login_csv.py
+    │
+    │── utils/
+    │   ├── api_config.py
+    │   └── data_reader.py
+    │
+    │── pytest.ini
     │── requirements.txt
     │── README.md
+
 
 ## 📊 Reportes HTML y Capturas
     La carpeta reports/ contiene:
 
-    reporte.html → reporte generado automáticamente por Pytest-HTML
+    reporte.html → generado automáticamente por Pytest-HTML
 
-    capturas/ → carpeta opcional para guardar screenshots de fallos
+    screenshots/ → capturas automáticas cuando una prueba falla
 
-    Estos archivos sirven como evidencia del resultado de las pruebas sin necesidad de ejecutar el proyecto.
+    Estas evidencias permiten revisar resultados sin necesidad de ejecutar nuevamente las pruebas.
 
 ## ✔️ Pruebas Incluidas
     🔐 Login
-        Validación de credenciales correctas
+    Validación de credenciales correctas
 
-        Verificación de acceso al inventario
+    Validación de credenciales incorrectas (escenario negativo)
 
     📦 Inventario
-     Visualización de productos
+    Visualización de productos
 
-     Validación de nombres y elementos visibles
+    Validación de nombres y elementos visibles
 
     🛒 Carrito
-        Agregar un producto al carrito
+    Agregar un producto al carrito
 
-        Verificar el contador del carrito
+    Verificar el contador del carrito
 
-        Confirmar que el producto agregado coincide con el mostrado en el carrito
+    Confirmar que el producto agregado coincide con el mostrado en el carrito
+
+## 🌐 Pruebas de API (Requests)
+        Se incluyen pruebas utilizando la API pública ReqRes:
+
+        GET usuario
+
+        POST creación de usuario
+
+        DELETE eliminación de usuario
+
+        Cada prueba valida:
+
+        Código de estado HTTP
+
+        Estructura del JSON
+
+        Campos esperados
+
+## 📘 Notas Finales
+        Este proyecto demuestra:
+
+        Buenas prácticas de automatización
+
+        Separación clara entre lógica de pruebas y lógica de páginas
+
+        Uso de datos externos
+
+        Reportes profesionales
+
+        Pruebas UI + API

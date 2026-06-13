@@ -8,7 +8,8 @@ def test_inventory_title(driver_logged):
     inventory_page = InventoryPage(driver_logged)
 
     titulo = inventory_page.obtener_titulo()
-    assert titulo == "Swag Labs", "El titulo de la página no es correcto"
+    assert titulo == "Products", "El título de la página no es correcto"
+
 
 def test_productos_visibles(driver_logged):
     inventory_page = InventoryPage(driver_logged)
