@@ -25,7 +25,7 @@ class InventoryPage:
         self.wait = WebDriverWait(driver, 10)
 
     def obtener_titulo(self):
-        return self.driver.find_element(*self._TITLE).text
+        return self.driver.find_element(By.CLASS_NAME, "title").text
 
     def obtener_productos(self):
         return self.driver.find_elements(*self._PRODUCTS)
