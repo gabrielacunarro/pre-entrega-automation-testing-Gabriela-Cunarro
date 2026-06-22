@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
   {
     "nombre": "Sauce Labs Backpack",
     "precio": "$29.99"
@@ -8,3 +9,14 @@
     "precio": "$9.99"
   }
 ]
+=======
+    {
+        "nombre": "Sauce Labs Backpack",
+        "precio": "$29.99"
+    },
+    {
+        "nombre": "Sauce Labs Bike Light",
+        "precio": "$9.99"
+    }
+]
+>>>>>>> e3d064a7da372905a51d3fe2351190578c1b957c

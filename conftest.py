@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from pages.login_page import LoginPage
 from utils.data_reader import read_users_csv
+<<<<<<< HEAD
 from pytest_html import extras
 import pathlib
 import base64
@@ -67,3 +68,30 @@ def pytest_runtest_makereport(item, call):
             report.extras.append(
                 extras.image(encoded_image, mime_type="image/png", extension="png")
             )
+=======
+
+@pytest.fixture(scope="function")
+def driver():
+ """Fixture que proporciona un WebDriver configurado."""
+ chrome_options = Options()
+ chrome_options.add_argument("--no-sandbox")
+ chrome_options.add_argument("--disable-dev-shm-usage")
+ service = Service()
+ driver = webdriver.Chrome(service=service, options=chrome_options)
+ driver.maximize_window()
+ driver.implicitly_wait(5)
+ yield driver
+ time.sleep(1) 
+ driver.quit()
+
+ 
+@pytest.fixture
+def driver_logged(driver):
+    login_page = LoginPage(driver)
+
+    user = read_users_csv()[0]
+
+    login_page.login(user["username"],user["password"])
+
+    return driver
+>>>>>>> e3d064a7da372905a51d3fe2351190578c1b957c
