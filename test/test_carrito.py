@@ -20,7 +20,7 @@ def test_carrito(driver):
 
     nombre_producto = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
 
-    # Botón robusto
+    # Botón 
     boton_add = primer_producto.find_element(By.TAG_NAME, "button")
 
     # Click forzado

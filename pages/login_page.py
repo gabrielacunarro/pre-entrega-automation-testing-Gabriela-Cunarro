@@ -51,7 +51,8 @@ class LoginPage:
         except:
             return False
 
-    def obtener_mensaje_error(self):
+    def get_error_message(self):
         if self.esta_error_visible():
             return self.driver.find_element(*self._ERROR_MESSAGE).text
         return ""
+
